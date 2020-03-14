@@ -2,7 +2,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Popconfirm, Button } from 'antd';
-import { BLOCK_USER } from './redux/action-types';
 import { blockUserAction } from './redux/actions'
 
 
@@ -12,8 +11,11 @@ class BlockUser extends React.Component {
     }
     onblockUser = (content) => {
         alert(`Пользователь с ID = ${content.id} заблокирован`);
-        console.log(content);
-        this.props.blockUser(content)
+        let blockArray = this.state.blockedUsers;
+        blockArray.push(content.id);
+        blockArray.sort();
+        this.setState({blockedUsers: blockArray});
+        this.props.blockUser(content,this.state.blockedUsers);
       }
     render () {
         const {
@@ -23,7 +25,7 @@ class BlockUser extends React.Component {
         return (
             <Popconfirm
                 title="Вы уверены что хотите заблокировать пользователя?"
-                onConfirm={() =>{this.onblockUser(content); console.log(this.props)}}
+                onConfirm={() =>{this.onblockUser(content);}}
                 okText="Да"
                 cancelText="Нет"
             >
@@ -34,16 +36,16 @@ class BlockUser extends React.Component {
 };
 const mapStateToProps = state =>{
     return{
-        block: state.modal.block,
+        block: state.modal.blocks,
         content: state.modal.content,
     }
 }
 const mapDispatchToProps = dispatch => {
     return{
-        blockUser: (content) => {
+        blockUser: (content,blockedUsers) => {
             let action = blockUserAction();
-            action.block = content.id
-            dispatch(action)
+            action.block = blockedUsers;
+            dispatch(action);
         },
     }
 }

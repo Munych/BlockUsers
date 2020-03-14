@@ -26,6 +26,7 @@ class Modal extends React.Component {
             triggerModal,
             content = null,
             blockUser,
+            
         } = this.props
 
         console.log(this.props)
@@ -48,6 +49,7 @@ const mapStateToProps = state => {
         visible: state.modal.visible,
         name: state.modal.name,
         test: state.modal.test,
+        block: state.modal.blocks,
     }
 }
 

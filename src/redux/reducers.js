@@ -6,7 +6,7 @@ import BlockUser from '../BlockUser';
 
 const initialState = {
     visible: false,
-    dar: "213",
+    dar: "213", 
 }
 
 export const modal = (state = initialState, action) => {
@@ -26,10 +26,9 @@ export const modal = (state = initialState, action) => {
     }
     if (action.type === BLOCK_USER){
         console.log(action.block)
-        let blocks = action.block;
         return {
            // content: action.payload.content,
-            blocks: blocks
+            blocks: action.block    
         }
     }
     console.log(state.blocks)

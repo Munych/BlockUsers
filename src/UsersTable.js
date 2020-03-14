@@ -45,9 +45,21 @@ class Users extends React.Component {
             columns,
             data,
         } = this.state;
-
         return <div>
-            <Table onRow={(record, rowIndex) => {
+            <Table rowClassName={(record, index)=>{
+                if(this.props.block!== undefined){//console.log(this.props.block[index]);
+                    console.log(this.props.block[index]);
+                    console.log(record.id);
+                    let trueUser=false
+                    for(let item of this.props.block){
+                       if(item===index + 1){
+                           trueUser=true
+                       }
+                    }
+                    return trueUser ? "red" : ""
+                }
+            }}
+            onRow={(record, rowIndex) => {
                 return {
                     onClick: event => { this.onClick(event, record) }
                 };
@@ -61,6 +73,7 @@ class Users extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        block: state.modal.blocks
     }
 }
 
