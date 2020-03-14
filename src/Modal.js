@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import BlockUser from './BlockUser.js'
 import { connect } from 'react-redux'
-import { CHANGE_MODAL_VISIBLE, BLOCK_USER } from './redux/action-types'
+import { CHANGE_MODAL_VISIBLE } from './redux/action-types'
 import { Modal as AntdModal } from 'antd';
 
 class Modal extends React.Component {
@@ -47,9 +47,6 @@ class Modal extends React.Component {
 const mapStateToProps = state => {
     return {
         visible: state.modal.visible,
-        name: state.modal.name,
-        test: state.modal.test,
-        block: state.modal.blocks,
     }
 }
 
@@ -60,12 +57,6 @@ const mapDispatchToProps = dispatch => {
                 type: CHANGE_MODAL_VISIBLE,
             });
         },
-        blockUser: function (){
-            return dispatch({
-                type:'TEST',
-                payload:{name : "Tim"}
-            })
-        }
     }
 }
 

@@ -2,20 +2,16 @@ import {
     combineReducers,
 } from 'redux';
 import {CHANGE_MODAL_VISIBLE, BLOCK_USER} from './action-types'
-import BlockUser from '../BlockUser';
 
 const initialState = {
-    visible: false,
-    dar: "213", 
+    visible: false, 
 }
 
 export const modal = (state = initialState, action) => {
-    console.log(state)
     if (action.type === CHANGE_MODAL_VISIBLE) {
-        console.log(action.content)
         return {
             visible: !state.visible,
-            content: action.content, 
+            content: action.content, // это данные одного пользователя, которые пришли с action в UsersTable.js
         }
     }
 
@@ -25,13 +21,10 @@ export const modal = (state = initialState, action) => {
         }
     }
     if (action.type === BLOCK_USER){
-        console.log(action.block)
         return {
-           // content: action.payload.content,
-            blocks: action.block    
+            blocksUsersArray: action.block // перезаписываю массив заблокированных юзеров из store новым массивом заблокированных пользователей после событий при нажатии "Заблокировать пользователя" 
         }
     }
-    console.log(state.blocks)
     return state;
 };
 

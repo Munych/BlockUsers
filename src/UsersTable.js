@@ -26,8 +26,7 @@ class Users extends React.Component {
     }
 
     onClick = (e, record) => {
-        this.props.triggerModal(record)
-        console.log(this.props.content)
+        this.props.triggerModal(record) // прокидываю данные одного пользователя в функцию triggerModal в mapDispatchToProps
     }
     async componentDidMount() {
         const response = await fetch('https://jsonplaceholder.typicode.com/users')
@@ -47,16 +46,14 @@ class Users extends React.Component {
         } = this.state;
         return <div>
             <Table rowClassName={(record, index)=>{
-                if(this.props.block!== undefined){//console.log(this.props.block[index]);
-                    console.log(this.props.block[index]);
-                    console.log(record.id);
-                    let trueUser=false
-                    for(let item of this.props.block){
-                       if(item===index + 1){
+                if(this.props.blocksUsersArray){ // не является ли blocksUsersArray undefined
+                    let trueUser=false // переменная, которая в цикле принимает true, при правде
+                    for(let item of this.props.blocksUsersArray){
+                       if(item===index + 1){ // проверка на совпадение id юзера и индекса строки
                            trueUser=true
                        }
                     }
-                    return trueUser ? "red" : ""
+                    return trueUser ? "red" : "" // если есть такой user перекрашиваем строку в красный цвет
                 }
             }}
             onRow={(record, rowIndex) => {
@@ -73,16 +70,16 @@ class Users extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        block: state.modal.blocks
+        blocksUsersArray: state.modal.blocksUsersArray // получаю массив заблокированных пользователей из store
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         triggerModal: (record) => {
-            let action = showModalAction()
-            action.content = record
-            dispatch(action)
+            let action = showModalAction() // action с типом CHANGE_MODAL_VISIBLE
+            action.content = record // заношу в action данные пользователя на которого кликнули
+            dispatch(action) // отправляю action в reducers
         }
     }
 }

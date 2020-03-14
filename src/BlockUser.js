@@ -7,20 +7,18 @@ import { blockUserAction } from './redux/actions'
 
 class BlockUser extends React.Component {
     state = {
-        blockedUsers : []
+        blockedUsers : [] // массив заблокированных пользователей
     }
     onblockUser = (content) => {
         alert(`Пользователь с ID = ${content.id} заблокирован`);
-        let blockArray = this.state.blockedUsers;
-        blockArray.push(content.id);
-        blockArray.sort();
-        this.setState({blockedUsers: blockArray});
-        this.props.blockUser(content,this.state.blockedUsers);
+        let blockArray = this.state.blockedUsers; // Считываю массив заблокированных пользователей из state
+        blockArray.push(content.id); // добавляю в массив id пользователя из события onConfirm в <Popconfirm>
+        this.setState({blockedUsers: blockArray}); // меняю массив заблокированных пользователей в state
+        this.props.blockUser(content,this.state.blockedUsers); // передаю в функцию blockUser, которая находится в mapDispatchToProps - данные пользователя на которого кликнули и массив заблокированных пользователей из state
       }
     render () {
         const {
-            content = {},
-            block,
+            content = {} //данные которые пришли от события в Modal.js,
         } = this.props
         return (
             <Popconfirm
@@ -36,16 +34,15 @@ class BlockUser extends React.Component {
 };
 const mapStateToProps = state =>{
     return{
-        block: state.modal.blocks,
-        content: state.modal.content,
+        content: state.modal.content, // данные пользователя на которого кликнули и нажали заблокировать
     }
 }
 const mapDispatchToProps = dispatch => {
     return{
         blockUser: (content,blockedUsers) => {
-            let action = blockUserAction();
-            action.block = blockedUsers;
-            dispatch(action);
+            let action = blockUserAction(); // вызываю action c type BLOCK_USER
+            action.block = blockedUsers;// передаю в action заблокированных пользователей из state
+            dispatch(action);// отправляю в редьюсер
         },
     }
 }
